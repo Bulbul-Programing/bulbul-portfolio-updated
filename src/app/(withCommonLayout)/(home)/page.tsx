@@ -1,9 +1,13 @@
-import React from 'react';
+import AboutSection from '@/components/Home/AboutSection';
+import ExperienceSection from '@/components/Home/ExperienceSection';
+import HeroSection from '@/components/Home/HeroSection';
 
 const HomePage = () => {
     return (
-        <div>
-            <h1>Bulbul ahammed</h1>
+        <div className=''>
+            <HeroSection />
+            <AboutSection />
+            <ExperienceSection />
         </div>
     );
 };

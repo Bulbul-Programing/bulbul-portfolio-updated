@@ -4,6 +4,7 @@ import { navigationLinks } from './Navbar';
 import { NavigationMenuItem, NavigationMenuLink } from '@/components/ui/navigation-menu';
 import { TooltipTrigger, Tooltip } from '@/components/ui/tooltip';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 const LargeDeviceNavigation = () => {
     const pathName = usePathname()
@@ -11,17 +12,12 @@ const LargeDeviceNavigation = () => {
         <>
             {navigationLinks.map((link) => (
                 <NavigationMenuItem key={link.label}>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <NavigationMenuLink
-                                href={link.href}
-                                className={`${pathName === link.href && 'bg-sidebar-accent'} flex items-center justify-center p-1.5`}
-                            >
-                                <p className="font-semibold">{link.label}</p>
-                                <span className="sr-only">{link.label}</span>
-                            </NavigationMenuLink>
-                        </TooltipTrigger>
-                    </Tooltip>
+                    <NavigationMenuLink
+                        asChild
+                        className={`${pathName === link.href && 'bg-sidebar-accent'} flex items-center justify-center p-1.5`}
+                    >
+                        <Link href={link.href}>{link.label}</Link>
+                    </NavigationMenuLink>
                 </NavigationMenuItem>
             ))}
         </>

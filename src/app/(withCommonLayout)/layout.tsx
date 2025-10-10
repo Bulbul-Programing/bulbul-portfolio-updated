@@ -6,7 +6,7 @@ const layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     return (
         <div>
             <Navbar />
-            <div className='min-h-dvh'>
+            <div>
                 {children}
             </div>
             <Footer />

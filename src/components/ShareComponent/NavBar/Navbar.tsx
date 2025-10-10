@@ -1,4 +1,5 @@
-import { useId } from "react"
+'use client'
+import { useEffect, useId, useState } from "react"
 import {
     HomeIcon,
     NewspaperIcon,
@@ -49,81 +50,104 @@ export const navigationLinks = [
 ]
 
 const Navbar = () => {
+    const [hideNavbar, setHideNavbar] = useState(false);
+    const [scrollValue, setScrollValue] = useState(0);
+    const currentPage = usePathname();
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (scrollValue < window.scrollY) {
+                setHideNavbar(true);
+            } else {
+                setHideNavbar(false);
+            }
+            setScrollValue(window.scrollY);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [scrollValue]);
 
     return (
-        <header className="border-b px-4 md:px-6">
-            <div className="flex h-16 items-center justify-between gap-4">
-                {/* Left side */}
-                <div className="flex flex-1 items-center gap-2">
-                    {/* Mobile menu trigger */}
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button
-                                className="group size-8 md:hidden"
-                                variant="ghost"
-                                size="icon"
-                            >
-                                <svg
-                                    className="pointer-events-none"
-                                    width={16}
-                                    height={16}
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M4 12L20 12"
-                                        className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
-                                    />
-                                    <path
-                                        d="M4 12H20"
-                                        className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
-                                    />
-                                    <path
-                                        d="M4 12H20"
-                                        className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
-                                    />
-                                </svg>
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent align="start" className="w-36 p-1 md:hidden">
-                            <NavigationMenu className="max-w-none *:w-full">
-                                <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                                    <SmallDeviceNavigation />
+        <div className={`sticky top-0 z-50 transition duration-500 ${hideNavbar ? "translate-y-[-110px]" : "top-0 translate-y-0"
+            }`}>
+            <div className="relative">
+                <header className=" bg-white/20 backdrop-blur-md md:px-6 absolute top-0 w-full">
+                    <div className="flex bg-transparent h-16 items-center justify-between gap-4">
+                        {/* Left side */}
+                        <div className="flex items-center gap-2">
+                            {/* Mobile menu trigger */}
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        className="group size-8 md:hidden"
+                                        variant="ghost"
+                                        size="icon"
+                                    >
+                                        <svg
+                                            className="pointer-events-none"
+                                            width={16}
+                                            height={16}
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M4 12L20 12"
+                                                className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
+                                            />
+                                            <path
+                                                d="M4 12H20"
+                                                className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
+                                            />
+                                            <path
+                                                d="M4 12H20"
+                                                className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
+                                            />
+                                        </svg>
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent align="start" className="w-36 p-1 md:hidden">
+                                    <NavigationMenu className="max-w-none *:w-full">
+                                        <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
+                                            <SmallDeviceNavigation />
+                                        </NavigationMenuList>
+                                    </NavigationMenu>
+                                </PopoverContent>
+                            </Popover>
+                            <div className="flex items-center gap-6">
+                                {/* Logo */}
+                                <Link href='/'>
+                                    <Logo />
+                                </Link>
+                                {/* Desktop navigation - icon only */}
+
+                            </div>
+                        </div>
+                        <div className=" px-5 py-2 rounded-full">
+                            <NavigationMenu className="hidden md:flex">
+                                <NavigationMenuList className="gap-2">
+                                        <LargeDeviceNavigation />
                                 </NavigationMenuList>
                             </NavigationMenu>
-                        </PopoverContent>
-                    </Popover>
-                    <div className="flex items-center gap-6">
-                        {/* Logo */}
-                        <Link href='/'>
-                            <Logo />
-                        </Link>
-                        <a href="#" className="text-primary hover:text-primary/90">
-
-                        </a>
-                        {/* Desktop navigation - icon only */}
-                        <NavigationMenu className="hidden md:flex">
-                            <NavigationMenuList className="gap-2">
-                                <TooltipProvider>
-                                    <LargeDeviceNavigation />
-                                </TooltipProvider>
-                            </NavigationMenuList>
-                        </NavigationMenu>
+                        </div>
+                        {/* Right side */}
+                        <div className="flex items-center gap-2">
+                            {/* Theme toggle */}
+                            <ThemeToggle />
+                            <UserMenu />
+                        </div>
                     </div>
-                </div>
-                {/* Right side */}
-                <div className="flex items-center gap-2">
-                    {/* Theme toggle */}
-                    <ThemeToggle />
-                    <UserMenu />
-                </div>
+                </header>
             </div>
-        </header>
+        </div>
     );
 };
 

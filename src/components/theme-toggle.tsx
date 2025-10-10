@@ -10,13 +10,13 @@ export default function ThemeToggle() {
   const { theme, setTheme, systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => setMounted(true), []) 
+  useEffect(() => setMounted(true), [])
   if (!mounted) return null;
 
   const currentTheme = theme === "system" ? systemTheme : theme;
 
   return (
-    <div>
+    <div className="border rounded-full">
       <Toggle
         variant="outline"
         className="group data-[state=on]:hover:bg-muted text-muted-foreground data-[state=on]:text-muted-foreground data-[state=on]:hover:text-foreground size-8 rounded-full border-none shadow-none data-[state=on]:bg-transparent"
