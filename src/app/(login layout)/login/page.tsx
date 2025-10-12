@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { BsGoogle } from 'react-icons/bs';
 import { toast } from 'sonner';
 import z from 'zod';
 
@@ -26,7 +27,7 @@ const Login = () => {
     })
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        
+
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
                 method: "POST",
@@ -38,19 +39,23 @@ const Login = () => {
             })
 
             const result = await response.json();
-            
+
             if (result.success) {
                 toast.success(result.massage || "")
                 route.push('/')
             }
 
-            if(!result.success){
+            if (!result.success) {
                 toast.error(result.message || "")
             }
 
         } catch (error) {
             console.log(error);
         }
+    }
+
+    const handleGoogleLogin = async () => {
+        window.location.href = "http://localhost:5000/api/v1/auth/google";
     }
 
     return (
@@ -90,6 +95,14 @@ const Login = () => {
                         </form>
                     </Form>
                     <div className="flex items-center mt-4">
+                        <div className="border-b border-gray-400 w-full" />
+                        <p className="px-2 text-sm font-medium">OR</p>
+                        <div className="border-b border-gray-400 w-full" />
+                    </div>
+                    <div className='flex justify-center mt-2 text-blue-500 text-3xl' >
+                        <BsGoogle onClick={handleGoogleLogin} className='cursor-pointer' />
+                    </div>
+                    <div className="flex items-center mt-2">
                         <div className="border-b border-gray-400 w-full" />
                         <p className="px-2 text-sm font-medium">OR</p>
                         <div className="border-b border-gray-400 w-full" />

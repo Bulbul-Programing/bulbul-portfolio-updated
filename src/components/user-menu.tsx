@@ -1,18 +1,12 @@
 'use client'
 import {
-  BoltIcon,
-  BookOpenIcon,
-  Layers2Icon,
   LayoutDashboard,
   LogOutIcon,
-  PinIcon,
-  UserPenIcon,
 } from "lucide-react"
 
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage,
 } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
