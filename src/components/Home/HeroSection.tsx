@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import profileImage from '../../../public/profile.png';
-import { Facebook, Twitter, Instagram, Linkedin, Github, PlayCircle } from 'lucide-react';
+import { Facebook, Linkedin, Github } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 

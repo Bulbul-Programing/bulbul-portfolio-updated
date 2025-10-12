@@ -1,4 +1,4 @@
-import { ArrowUpRight, Briefcase, Code, Database } from 'lucide-react';
+import { ArrowUpRight, Briefcase, Code } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { SiHtml5, SiCss3, SiTailwindcss, SiJavascript, SiTypescript, SiShadcnui, SiReact, SiNextdotjs, SiRedux, SiFirebase, SiNodedotjs, SiExpress, SiMongodb, SiPostgresql } from "react-icons/si";

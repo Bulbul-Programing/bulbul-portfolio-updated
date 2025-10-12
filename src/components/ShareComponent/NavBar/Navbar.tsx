@@ -1,18 +1,16 @@
-'use client'
-import { useEffect, useId, useState } from "react"
+
+import { useEffect, useState } from "react"
 import {
     HomeIcon,
+    LogInIcon,
     NewspaperIcon,
     PresentationIcon,
     UserIcon
 } from "lucide-react"
 
-
 import { Button } from "@/components/ui/button"
 import {
     NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuLink,
     NavigationMenuList,
 } from "@/components/ui/navigation-menu"
 import {
@@ -20,19 +18,6 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
 import Logo from "../../logo"
 import ThemeToggle from "../../theme-toggle"
 import UserMenu from "../../user-menu"
@@ -40,40 +25,40 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import LargeDeviceNavigation from "./LargeDeviceNavigation"
 import SmallDeviceNavigation from "./SmallDeviceNavigation"
+import UserStatus from "./UserStatus"
 
 // Navigation links with icons for desktop icon-only navigation
 export const navigationLinks = [
     { href: "/", label: "Home", icon: HomeIcon, active: true },
     { href: "/about", label: "About", icon: UserIcon },
     { href: "/blog", label: "Blog", icon: NewspaperIcon },
-    { href: "/project", label: "Project", icon: PresentationIcon },
+    { href: "/project", label: "Project", icon: PresentationIcon }
 ]
 
 const Navbar = () => {
-    const [hideNavbar, setHideNavbar] = useState(false);
-    const [scrollValue, setScrollValue] = useState(0);
-    const currentPage = usePathname();
+    // const [hideNavbar, setHideNavbar] = useState(false);
+    // const [scrollValue, setScrollValue] = useState(0);
+    // const currentPage = usePathname();
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (scrollValue < window.scrollY) {
-                setHideNavbar(true);
-            } else {
-                setHideNavbar(false);
-            }
-            setScrollValue(window.scrollY);
-        };
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         if (scrollValue < window.scrollY) {
+    //             setHideNavbar(true);
+    //         } else {
+    //             setHideNavbar(false);
+    //         }
+    //         setScrollValue(window.scrollY);
+    //     };
 
-        window.addEventListener("scroll", handleScroll);
+    //     window.addEventListener("scroll", handleScroll);
 
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, [scrollValue]);
+    //     return () => {
+    //         window.removeEventListener("scroll", handleScroll);
+    //     };
+    // }, [scrollValue]);
 
     return (
-        <div className={`sticky top-0 z-50 transition duration-500 ${hideNavbar ? "translate-y-[-110px]" : "top-0 translate-y-0"
-            }`}>
+        <div >
             <div className="relative">
                 <header className=" bg-white/20 backdrop-blur-md md:px-6 absolute top-0 w-full">
                     <div className="flex bg-transparent h-16 items-center justify-between gap-4">
@@ -134,7 +119,7 @@ const Navbar = () => {
                         <div className=" px-5 py-2 rounded-full">
                             <NavigationMenu className="hidden md:flex">
                                 <NavigationMenuList className="gap-2">
-                                        <LargeDeviceNavigation />
+                                    <LargeDeviceNavigation />
                                 </NavigationMenuList>
                             </NavigationMenu>
                         </div>
