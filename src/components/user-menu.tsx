@@ -56,7 +56,7 @@ export default function UserMenu() {
       setLogoutRef(!logoutRef)
     }
   }
-
+  console.log(user, loading);
   if (loading) {
     return <>loading.</>
   }
@@ -66,7 +66,7 @@ export default function UserMenu() {
       {
         user?.email ? <div>
           {
-            user?.role === 'WONER' || user?.role === 'ADMIN' || user?.role === 'USER' && (
+            (user?.role === 'ADMIN' || user.role === 'OWNER' || user.role === 'USER') && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
@@ -88,7 +88,7 @@ export default function UserMenu() {
                   <DropdownMenuGroup>
                     <DropdownMenuItem>
                       <LayoutDashboard size={16} className="opacity-60" aria-hidden="true" />
-                      <Link href='/dashboard'>Dashboard</Link>
+                      <Link href={`${user?.role.toLowerCase()}/dashboard`}>Dashboard</Link>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />

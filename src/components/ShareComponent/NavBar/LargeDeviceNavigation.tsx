@@ -2,7 +2,6 @@
 import React from 'react';
 import { navigationLinks } from './Navbar';
 import { NavigationMenuItem, NavigationMenuLink } from '@/components/ui/navigation-menu';
-import { TooltipTrigger, Tooltip } from '@/components/ui/tooltip';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 

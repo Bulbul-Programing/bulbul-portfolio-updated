@@ -22,10 +22,8 @@ import Logo from "../../logo"
 import ThemeToggle from "../../theme-toggle"
 import UserMenu from "../../user-menu"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import LargeDeviceNavigation from "./LargeDeviceNavigation"
 import SmallDeviceNavigation from "./SmallDeviceNavigation"
-import UserStatus from "./UserStatus"
 
 // Navigation links with icons for desktop icon-only navigation
 export const navigationLinks = [
