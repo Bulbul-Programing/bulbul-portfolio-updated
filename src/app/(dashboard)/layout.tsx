@@ -107,7 +107,10 @@ const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) 
                                         onClick={() => setIsDrawerOpen(false)}
                                     >
                                         <div
-                                            className={`text-lg md:text-2xl ${currentPage !== item.path ? !isExpanded && " text-foreground" : ""} ${isExpanded && currentPage !== item.path ? "bg-transparent" : ""} lg:text-xl ${currentPage === item.path ? !isExpanded && " bg-destructive p-3 rounded-full" : ""}`}
+                                            className={`text-lg md:text-2xl lg:text-xl 
+                                                ${currentPage !== item.path ? !isExpanded && " text-foreground" : ""} 
+                                                ${isExpanded && currentPage !== item.path ? "bg-transparent" : ""} 
+                                                ${currentPage === item.path ? !isExpanded && " bg-destructive p-3 rounded-full" : ""}`}
                                         >
                                             {item.icon}
                                         </div>
