@@ -55,7 +55,7 @@ const AllBlogs =  () => {
                     </thead>
                     <tbody>
                         {blogs?.map((blog) => (
-                            <tr key={blog.id} className="border-b hover:bg-gray-50">
+                            <tr key={blog.id} className="border-b">
                                 <td className="p-2">
                                     <Image
                                         alt={blog.title}
@@ -70,7 +70,7 @@ const AllBlogs =  () => {
                                     {blog.published ? 'Published' : 'Blocked'}
                                 </td>
                                 <td>{new Date(blog.createdAt).toLocaleDateString()}</td>
-                                <td>
+                                <td className='max-w-[50px]'>
                                     <BlogActionSection blogInfo={blog} />
                                 </td>
                             </tr>

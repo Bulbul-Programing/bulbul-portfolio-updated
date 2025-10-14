@@ -34,6 +34,7 @@ import { Label } from '@/components/ui/label';
 import { hostImages } from '@/utils/ImageUpload';
 import { LoaderCircleIcon } from 'lucide-react';
 import Image from 'next/image';
+import { revalidateTag } from 'next/cache';
 
 const formSchema = z.object({
     title: z.string().min(3, { message: 'Title is required' }),
@@ -137,7 +138,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onBlogCreated }) => {
             <div>
                 <AlertDialog open={open} onOpenChange={setOpen}>
                     <AlertDialogTrigger asChild>
-                        <Button variant="outline" onClick={() => setOpen(true)}>Add Blog</Button>
+                        <Button className='hover:cursor-pointer' variant="outline" onClick={() => setOpen(true)}>Add Blog</Button>
                     </AlertDialogTrigger>
 
                     <AlertDialogContent className="sm:max-h-[min(640px,80vh)] sm:max-w-lg">
