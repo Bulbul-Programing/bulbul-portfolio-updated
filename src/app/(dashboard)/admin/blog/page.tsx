@@ -9,7 +9,6 @@ const Blog = () => {
                 Welcome to Blogs Page.
             </h1>
             <div>
-                <CreateBlog />
                 <AllBlogs />
             </div>
         </div>

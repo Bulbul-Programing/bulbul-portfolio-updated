@@ -31,40 +31,35 @@ import {
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { Label } from '@/components/ui/label';
+import { hostImages } from '@/utils/ImageUpload';
+import { LoaderCircleIcon } from 'lucide-react';
+import Image from 'next/image';
 
 const formSchema = z.object({
     title: z.string().min(3, { message: 'Title is required' }),
     slug: z.string().min(3, { message: 'Slug is required' }),
     excerpt: z.string().optional(),
-    content: z.string().min(10, { message: 'Content must be at least 10 characters' }),
-    coverImage: z.string().url({ message: 'Cover image must be a valid URL' }),
+    content: z.string({ message: 'Content is required' }),
+    coverImage: z.instanceof(File),
     published: z.boolean(),
 });
 
-const CreateBlog = () => {
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [blogBannerPreview, setBlogBannerPreview] = useState<string[] | []>([]);
+interface CreateBlogProps {
+    onBlogCreated?: () => void;
+}
+
+
+const CreateBlog: React.FC<CreateBlogProps> = ({ onBlogCreated }) => {
+    const [open, setOpen] = useState(false);
+    const [blogBannerPreview, setBlogBannerPreview] = useState('');
     const [blogBanner, setBlogBanner] = useState<File[] | []>([]);
-    const route = useRouter();
-    const [value, setValue] = useState('');
+    const [blogContent, setBlogContent] = useState('');
+    const [blogTitle, setBlogTitle] = useState('');
     const [loading, setLoading] = useState(false);
-
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: '',
-            slug: '',
-            excerpt: '',
-            content: '',
-            coverImage: '',
-            published: false
-        },
-    });
 
     const handleModalClose = () => {
         setBlogBanner([]);
-        setBlogBannerPreview([]);
+        setBlogBannerPreview('');
     };
 
     const handlePhoto = (e: ChangeEvent<HTMLInputElement>) => {
@@ -72,11 +67,11 @@ const CreateBlog = () => {
 
         setBlogBanner([file]);
         if (file) {
-            setBlogBannerPreview([]);
+            setBlogBannerPreview('');
             const reader = new FileReader();
 
             reader.onloadend = () => {
-                setBlogBannerPreview((prev) => [...prev, reader.result as string]);
+                setBlogBannerPreview(reader.result as string);
             };
 
             reader.readAsDataURL(file);
@@ -84,61 +79,107 @@ const CreateBlog = () => {
     };
 
     const handleSubmit = async () => {
-        console.log(blogBanner);
-        // try {
-        //     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
-        //         method: "POST",
-        //         headers: {
-        //             'Content-Type': "application/json"
-        //         },
-        //         body: JSON.stringify(data),
-        //         credentials: "include",
-        //     })
 
-        //     const result = await response.json();
+        if (blogTitle.length < 1) {
+            return toast.error("Please set Blog Title")
+        }
 
-        //     if (result.success) {
-        //         toast.success(result.massage || "")
-        //         route.push('/')
-        //     }
+        if (!blogContent || blogContent.trim() === '' || blogContent === '<p><br></p>') {
+            toast.error('Please write some blog content!');
+            return;
+        }
 
-        //     if (!result.success) {
-        //         toast.error(result.message || "")
-        //     }
+        if (blogBanner.length < 1) {
+            return toast.error("Please select a blog banner Photo");
+        }
+        let coverImage;
+        setLoading(true)
+        if (blogBanner) {
+            const uploadPhoto = await hostImages(blogBanner);
 
-        // } catch (error) {
-        //     console.log(error);
-        // }
+            coverImage = uploadPhoto[0];
+        }
+
+        const payload = {
+            content: blogContent,
+            coverImage,
+            title: blogTitle
+        }
+
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/create`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+                credentials: "include",
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                toast.success(result.message || "Blog created successfully");
+                onBlogCreated?.();
+                setOpen(false)
+                setLoading(false)
+            } else {
+                toast.error(result.message || "Something went wrong");
+                setLoading(false)
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("Failed to create blog");
+            setLoading(false)
+        }
     }
-    console.log(value);
+
     return (
         <div>
             <div>
-                <AlertDialog>
+                <AlertDialog open={open} onOpenChange={setOpen}>
                     <AlertDialogTrigger asChild>
-                        <Button variant="outline">Add Blog</Button>
+                        <Button variant="outline" onClick={() => setOpen(true)}>Add Blog</Button>
                     </AlertDialogTrigger>
 
                     <AlertDialogContent className="sm:max-h-[min(640px,80vh)] sm:max-w-lg">
                         <AlertDialogHeader>
-                            <Label className='text-secondary-foreground/70 my-2'>Blog Thamniale</Label>
+                            {
+                                blogBannerPreview.length > 0 && <Image className='mx-auto rounded-lg' width={200} height={100} src={blogBannerPreview} alt='banner image' />
+                            }
+                            <Label className='text-secondary-foreground/70 my-1'>Blog Title</Label>
+                            <Input
+                                onChange={(e) => setBlogTitle(e.target.value)}
+                                placeholder='Blog Title'
+                                className="p-2 mb-3 pe-3 file:me-3 file:border-0 file:border-e"
+                            />
+                            <Label className='text-secondary-foreground/70 my-1'>Blog Thamniale</Label>
                             <Input
                                 onChange={handlePhoto}
-                                className="p-0 pe-3 file:me-3 file:border-0 file:border-e"
+                                className="px-2 mb-3 pe-3 file:me-3 file:border-0 file:border-e"
                                 type="file"
                             />
-                            <Label className='text-secondary-foreground/70 my-2'>Blog Content</Label>
+                            <Label className='text-secondary-foreground/70 my-1'>Blog Content</Label>
                             <ReactQuill
 
                                 theme="snow"
-                                value={value}
-                                onChange={setValue}
+                                value={blogContent}
+                                onChange={setBlogContent}
                                 placeholder="Write your blog content here..."
-                                style={{ height: "200px", marginBottom: "80px", borderRadius: "20px" }}
+                                style={{ height: "150px", marginBottom: "50px", borderRadius: "20px" }}
                             />
                             <div className='flex gap-x-2 justify-end'>
                                 <AlertDialogCancel onClick={handleModalClose}>Cancel</AlertDialogCancel>
-                                <Button onClick={handleSubmit} className='cursor-pointer'>Click me</Button>
+                                {
+                                    loading ?
+                                        <Button disabled={loading} onClick={handleSubmit} className='cursor-pointer'>
+                                            <LoaderCircleIcon
+                                                className="-ms-1 animate-spin"
+                                                size={16}
+                                                aria-hidden="true"
+                                            /> Create Blog
+                                        </Button> :
+                                        <Button disabled={loading} onClick={handleSubmit} className='cursor-pointer'>Create Blog</Button>
+                                }
+
                             </div>
                         </AlertDialogHeader>
                     </AlertDialogContent>
