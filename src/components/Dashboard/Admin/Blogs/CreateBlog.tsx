@@ -120,6 +120,9 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onBlogCreated }) => {
             if (result.success) {
                 toast.success(result.message || "Blog created successfully");
                 onBlogCreated?.();
+                setBlogBanner([]);
+                setBlogBannerPreview('');
+                setBlogTitle('')
                 setOpen(false)
                 setLoading(false)
             } else {

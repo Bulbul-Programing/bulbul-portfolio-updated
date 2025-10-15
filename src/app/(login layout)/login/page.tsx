@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -54,9 +56,9 @@ const Login = () => {
         }
     }
 
-    const handleGoogleLogin = async () => {
-        window.location.href = "http://localhost:5000/api/v1/auth/google";
-    }
+    const handleSocialLogin = (provider: "google" | "github") => {
+        console.log(`Login with ${provider}`);
+    };
 
     return (
         <div className="relative ">
@@ -99,8 +101,27 @@ const Login = () => {
                         <p className="px-2 text-sm font-medium">OR</p>
                         <div className="border-b border-gray-400 w-full" />
                     </div>
-                    <div className='flex justify-center mt-2 text-blue-500 text-3xl' >
-                        <BsGoogle onClick={handleGoogleLogin} className='cursor-pointer' />
+                    {/* Social Login Buttons */}
+                    <div className="flex flex-col gap-3 mt-4">
+                        <Button
+                            variant="outline"
+                            className="flex items-center justify-center gap-2"
+                            onClick={() =>
+                                signIn("google", {
+                                    callbackUrl: "/dashboard/admin",
+                                })
+                            }
+                        >
+                            {/* Google */}
+                            <Image
+                                src="https://img.icons8.com/color/24/google-logo.png"
+                                alt="Google"
+                                className="w-5 h-5"
+                                width={20}
+                                height={20}
+                            />
+                            Login with Google
+                        </Button>
                     </div>
                     <div className="flex items-center mt-2">
                         <div className="border-b border-gray-400 w-full" />
