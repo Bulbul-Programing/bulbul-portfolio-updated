@@ -1,4 +1,5 @@
 'use client'
+import { register } from '@/actions/auth';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -28,30 +29,43 @@ const Register = () => {
     })
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
+
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/create`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-
-            const result = await response.json();
-            
-            if (result.success) {
-                toast.success(result.massage || "")
-                router.push('/login')
+            const res = await register(data);
+            console.log(res);
+            if (res?.success) {
+                toast.success(res.massage);
+                router.push("/login");
             }
-
-            if (!result.success) {
-                toast.error(result.message || "")
+            if (!res.success) {
+                toast.error(res.message || "")
             }
-
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            console.error(err);
         }
+        // try {
+        //     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/create`, {
+        //         method: "POST",
+        //         headers: {
+        //             'Content-Type': "application/json"
+        //         },
+        //         body: JSON.stringify(data)
+        //     })
+
+        //     const result = await response.json();
+
+        //     if (result.success) {
+        //         toast.success(result.massage || "")
+        //         router.push('/login')
+        //     }
+
+        //     if (!result.success) {
+        //         toast.error(result.message || "")
+        //     }
+
+        // } catch (error) {
+        //     console.log(error);
+        // }
     }
     return (
         <div className="flex justify-center  items-center h-screen">
@@ -92,7 +106,7 @@ const Register = () => {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input className='border border-secondary-foreground' placeholder="******" {...field} />
+                                        <Input className='border border-secondary-foreground' type='password' placeholder="******" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

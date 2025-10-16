@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { BsGoogle } from 'react-icons/bs';
 import { toast } from 'sonner';
 import z from 'zod';
 
@@ -31,34 +30,25 @@ const Login = () => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': "application/json"
-                },
-                body: JSON.stringify(data),
-                credentials: "include",
-            })
+            console.log(data);
+            const res = await signIn("credentials", {
+                redirect: false,
+                ...data,
+                callbackUrl: "/",
+            });
 
-            const result = await response.json();
-
-            if (result.success) {
-                toast.success(result.massage || "")
+            if (res !== undefined && res.ok) {
+                toast.success("User Login successfully")
                 route.push('/')
             }
-
-            if (!result.success) {
-                toast.error(result.message || "")
+            if (res === undefined || !res.ok) {
+                toast.success("Email or Password Do'not Match!")
             }
 
         } catch (error) {
             console.log(error);
         }
     }
-
-    const handleSocialLogin = (provider: "google" | "github") => {
-        console.log(`Login with ${provider}`);
-    };
 
     return (
         <div className="relative ">
@@ -87,7 +77,7 @@ const Login = () => {
                                     <FormItem>
                                         <FormLabel>Password</FormLabel>
                                         <FormControl>
-                                            <Input className='border border-secondary-foreground' placeholder="******" {...field} />
+                                            <Input className='border border-secondary-foreground' type='password' placeholder="******" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -108,7 +98,7 @@ const Login = () => {
                             className="flex items-center justify-center gap-2"
                             onClick={() =>
                                 signIn("google", {
-                                    callbackUrl: "/dashboard/admin",
+                                    callbackUrl: "/",
                                 })
                             }
                         >

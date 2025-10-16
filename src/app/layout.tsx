@@ -4,6 +4,7 @@ import { Nunito } from 'next/font/google';
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
 import { Toaster } from "sonner";
+import AuthProvider from "@/providers/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,10 +36,13 @@ export default function RootLayout({
       <body
         className={`${NunitoFont.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Toaster richColors />
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        <AuthProvider>
+          <Toaster richColors />
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+        </AuthProvider>
+
 
       </body>
     </html>
