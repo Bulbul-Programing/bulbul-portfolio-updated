@@ -35,6 +35,8 @@ import { hostImages } from '@/utils/ImageUpload';
 import { LoaderCircleIcon } from 'lucide-react';
 import Image from 'next/image';
 import { revalidateTag } from 'next/cache';
+import { useUserInfo } from '@/utils/getUserInfo';
+import { createNewBlog } from '@/actions/create';
 
 const formSchema = z.object({
     title: z.string().min(3, { message: 'Title is required' }),
@@ -57,6 +59,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onBlogCreated }) => {
     const [blogContent, setBlogContent] = useState('');
     const [blogTitle, setBlogTitle] = useState('');
     const [loading, setLoading] = useState(false);
+    const { user, loading: userLoading, status } = useUserInfo()
 
     const handleModalClose = () => {
         setBlogBanner([]);
@@ -104,30 +107,26 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onBlogCreated }) => {
         const payload = {
             content: blogContent,
             coverImage,
-            title: blogTitle
+            title: blogTitle,
+            authorId: user?.id
         }
 
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/create`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-                credentials: "include",
-            });
-
-            const result = await response.json();
+            const result = await createNewBlog(payload)
+            console.log(result);
             if (result.success) {
-                toast.success(result.message || "Blog created successfully");
+                toast.success(result.massage || "Blog created successfully");
                 onBlogCreated?.();
                 setBlogBanner([]);
                 setBlogBannerPreview('');
                 setBlogTitle('')
                 setOpen(false)
                 setLoading(false)
-            } else {
-                toast.error(result.message || "Something went wrong");
-                setLoading(false)
+            }
+            if (!result.success) {
+                toast.error(result.massage || "Blog created Failed!");
+
             }
         } catch (error) {
             console.log(error);

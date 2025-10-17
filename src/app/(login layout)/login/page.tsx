@@ -83,7 +83,7 @@ const Login = () => {
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit" className='w-full'>Login</Button>
+                            <Button type="submit" className='w-full hover:cursor-pointer'>Login</Button>
                         </form>
                     </Form>
                     <div className="flex items-center mt-4">

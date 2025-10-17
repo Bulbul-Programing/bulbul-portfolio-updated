@@ -21,28 +21,30 @@ import {
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { toast } from "sonner"
+import { signOut, useSession } from "next-auth/react"
+import UserAvatarSkeleton from "@/Skeleton/UserAvatarSkeleton"
 
 export default function UserMenu() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = useState<any>({})
   const [loading, setLoading] = useState(false)
   const [logoutRef, setLogoutRef] = useState(false)
+  const { data: session, status } = useSession()
 
   useEffect(() => {
     setLoading(true)
     const fetchUser = async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me`, {
-        method: "GET",
-        credentials: "include"
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me/${session?.user?.email}`, {
+        method: "GET"
       })
-      const data = await res.json()
 
+      const data = await res.json()
       setLoading(false)
       setUser(data.data)
     }
 
     fetchUser()
-  }, [logoutRef])
+  }, [logoutRef, session])
 
   const handleLogout = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, {
@@ -50,16 +52,14 @@ export default function UserMenu() {
       credentials: "include"
     })
     const data = await res.json()
-    console.log(data);
     if (data.success) {
+      signOut({ redirect: false })
       toast.success(data.massage || "some ")
       setLogoutRef(!logoutRef)
     }
   }
-  console.log(user, loading);
-  if (loading) {
-    return <>loading.</>
-  }
+  if (status === "loading" || loading) return <UserAvatarSkeleton />
+
 
   return (
     <>

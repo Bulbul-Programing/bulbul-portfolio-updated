@@ -112,7 +112,7 @@ const Register = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className='w-full'>Register</Button>
+                        <Button type="submit" className='w-full cursor-pointer'>Register</Button>
                     </form>
                 </Form>
                 <div className="flex items-center mt-4">

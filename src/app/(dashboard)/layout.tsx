@@ -10,31 +10,18 @@ import { TDecodedUser } from '@/types/TDecodedUser';
 import { adminDashboardNabItem, OwnerDashboardNabItem } from '@/components/NavItems/DashboardNavItem';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { useUserInfo } from '@/utils/getUserInfo';
 
 
 const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     const router = useRouter();
-    const [userInfo, setUserInfo] = useState<TDecodedUser | any>({});
+    const { user, loading: userLoading, status } = useUserInfo()
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [loading, setLoading] = useState(false)
     const currentPage = usePathname();
 
-    useEffect(() => {
-        setLoading(true)
-        const fetchUser = async () => {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me`, {
-                method: "GET",
-                credentials: "include"
-            })
-            const data = await res.json()
-            setUserInfo(data.data)
-            setLoading(false)
-        }
-
-        fetchUser()
-    }, []);
 
     const handleMouseEnter = () => {
         setIsExpanded(true);
@@ -55,7 +42,7 @@ const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) 
         }
     };
 
-    if (loading) {
+    if (loading || userLoading) {
         return <p>Loading</p>
     }
 
@@ -81,19 +68,19 @@ const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) 
             >
                 <div>
                     <div className='flex justify-center mb-2 mt-3'>
-                        <p className='w-10 h-10 bg-accent flex justify-center items-center rounded-full'> {userInfo?.name?.slice(0, 2).toUpperCase()}</p>
+                        <p className='w-10 h-10 bg-accent flex justify-center items-center rounded-full'> {user?.name?.slice(0, 2).toUpperCase()}</p>
                     </div>
 
                     <h1
                         className={`${isExpanded ? "text-base mt-2" : "text-[0px] mt-0"} text-center transition-all ease-in duration-300 font-semibold`}
                     >
-                        {userInfo.name}
+                        {user.name}
                     </h1>
                 </div>
                 <div className='border-b mt-2'></div>
                 <div className="mt-4 space-y-2 transition-all duration-300 ease-in-out">
                     {
-                        userInfo.role === 'ADMIN' &&
+                        user.role === 'ADMIN' &&
                         <>
                             {
                                 adminDashboardNabItem.map((item, index) => (
@@ -123,7 +110,7 @@ const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) 
                         </>
                     }
                     {
-                        userInfo.role === 'OWNER' &&
+                        user.role === 'OWNER' &&
                         <>
                             {
                                 OwnerDashboardNabItem.map((item, index) => (

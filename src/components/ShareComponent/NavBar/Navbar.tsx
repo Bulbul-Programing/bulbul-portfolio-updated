@@ -1,8 +1,6 @@
 
-import { useEffect, useState } from "react"
 import {
     HomeIcon,
-    LogInIcon,
     NewspaperIcon,
     PresentationIcon,
     UserIcon
@@ -24,7 +22,6 @@ import UserMenu from "../../user-menu"
 import Link from "next/link"
 import LargeDeviceNavigation from "./LargeDeviceNavigation"
 import SmallDeviceNavigation from "./SmallDeviceNavigation"
-
 // Navigation links with icons for desktop icon-only navigation
 export const navigationLinks = [
     { href: "/", label: "Home", icon: HomeIcon, active: true },
@@ -33,7 +30,8 @@ export const navigationLinks = [
     { href: "/project", label: "Project", icon: PresentationIcon }
 ]
 
-const Navbar = () => {
+const Navbar = async () => {
+    
     // const [hideNavbar, setHideNavbar] = useState(false);
     // const [scrollValue, setScrollValue] = useState(0);
     // const currentPage = usePathname();

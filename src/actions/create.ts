@@ -1,36 +1,25 @@
-// "use server";
+"use server";
 
-// import { getUserSession } from "@/helpers/getUserSession";
-// import { revalidatePath, revalidateTag } from "next/cache";
-// import { redirect } from "next/navigation";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
-// export const create = async (data: FormData) => {
-//   const session = await getUserSession();
-//   const blogInfo = Object.fromEntries(data.entries());
-//   const modifiedData = {
-//     ...blogInfo,
-//     tags: blogInfo.tags
-//       .toString()
-//       .split(",")
-//       .map((tag) => tag.trim()),
-//     authorId: session?.user?.id,
-//     isFeatured: Boolean(blogInfo.isFeatured),
-//   };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const createNewBlog = async (data : any) => {
 
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(modifiedData),
-//   });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/create`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    });
 
-//   const result = await res.json();
-
-//   if (result?.id) {
-//     revalidateTag("BLOGS");
-//     revalidatePath("/blogs");
-//     redirect("/");
-//   }
-//   return result;
-// };
+    const result = await res.json();
+    console.log('result', result);
+    if (result?.id) {
+        revalidateTag("BLOGS");
+        revalidatePath("/blogs");
+        redirect("/");
+    }
+    return result;
+};

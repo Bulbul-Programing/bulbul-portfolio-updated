@@ -75,28 +75,45 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async jwt({ token, user }) {
-            if (user) {
-                token.id = user.id;
-                token.email = user.email;
-                token.role = user.role;
-                token.accessToken = user.accessToken;
-                token.refreshToken = user.refreshToken;
+        async jwt({ token, user, account, profile }) {
+            // Happens only on first login
+            if (user && account) {
+                try {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/create`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            name: user.name,
+                            email: user.email
+                        }),
+                    });
+
+                    const data = await res.json();
+
+                    // Assuming your backend returns tokens + user info
+                    token.id = data.user.id;
+                    token.role = data.user.role;
+                    token.accessToken = data.accessToken;
+                    token.refreshToken = data.refreshToken;
+                } catch (err) {
+                    console.error("Failed to save user:", err);
+                }
             }
+
             return token;
         },
-        async session({ session, token }) {
+
+        async session({ session, token }: { session: any, token: any }) {
             if (session.user) {
-                session.user.id = token.id as string;
-                session.user.email = token.email as string;
-                session.user.role = token.role as string;
-                (session as any).accessToken = token.accessToken;
-                (session as any).refreshToken = token.refreshToken;
+                session.user.id = token.id;
+                session.user.role = token.role;
             }
+            session.accessToken = token.accessToken;
+            session.refreshToken = token.refreshToken;
             return session;
         },
     },
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
     pages: {
         signIn: "/login",
     },
