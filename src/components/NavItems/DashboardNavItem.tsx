@@ -4,17 +4,17 @@ import { RiBloggerLine } from "react-icons/ri";
 
 export const adminDashboardNabItem = [
     {
-        path: "/admin/dashboard",
+        path: "/dashboard",
         element: "Dashboard",
         icon: <MdOutlineDashboard />,
     },
     {
-        path: "/admin/project",
+        path: "/dashboard/project",
         element: "Project",
         icon: <GoProjectTemplate />,
     },
     {
-        path: "/admin/blog",
+        path: "/dashboard/blog",
         element: "Blog",
         icon: <RiBloggerLine />,
     }

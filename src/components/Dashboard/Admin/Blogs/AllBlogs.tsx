@@ -1,4 +1,3 @@
-
 import { TBlog } from '@/types/TBlogs';
 import Image from 'next/image';
 import React, { } from 'react';
@@ -8,38 +7,12 @@ import CreateBlog from './CreateBlog';
 
 const AllBlogs = async () => {
     const blogs = await getBlogs();
-    console.log(blogs, 'in all blogs');
-    // const [loading, setLoading] = useState(false);
-
-    // // Fetch all blogs
-    // const fetchBlogs = async () => {
-    //     try {
-    //         setLoading(true);
-    //         const data = await getBlogs();
-    //         setBlogs(data);
-    //     } catch (err) {
-    //         toast.error("Failed to fetch blogs");
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     fetchBlogs();
-    // }, []);
-
-    // // Callback after blog created
-    // const handleBlogCreated = () => {
-    //     fetchBlogs(); // 👈 auto-refresh after POST
-    // };
 
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <CreateBlog /> {/* 👈 Pass callback */}
             </div>
-
-
             <table className="min-w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden">
                 <thead className="bg-destructive text-secondary">
                     <tr>
@@ -74,7 +47,6 @@ const AllBlogs = async () => {
                     ))}
                 </tbody>
             </table>
-
         </div>
     );
 };

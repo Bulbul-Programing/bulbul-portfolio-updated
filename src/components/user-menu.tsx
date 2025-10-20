@@ -88,7 +88,7 @@ export default function UserMenu() {
                   <DropdownMenuGroup>
                     <DropdownMenuItem>
                       <LayoutDashboard size={16} className="opacity-60" aria-hidden="true" />
-                      <Link href={`${user?.role.toLowerCase()}/dashboard`}>Dashboard</Link>
+                      <Link href={`/dashboard`}>Dashboard</Link>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />

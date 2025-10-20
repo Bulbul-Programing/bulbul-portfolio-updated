@@ -1,8 +1,8 @@
 'use client'
 
-import { deleteBlog, updateBlog } from "@/actions/create";
+import { deleteBlog, updateBlog } from "@/actions/blogAction";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TBlog } from "@/types/TBlogs";
@@ -10,7 +10,6 @@ import { useUserInfo } from "@/utils/getUserInfo";
 import { hostImages } from "@/utils/ImageUpload";
 import { CircleAlertIcon, LoaderCircleIcon } from "lucide-react";
 import Image from "next/image";
-import { title } from "process";
 import React, { ChangeEvent, startTransition, useState } from "react";
 import { FaEdit, FaRegEye, FaRegEyeSlash, FaRegTrashAlt } from "react-icons/fa";
 import ReactQuill from "react-quill-new";
@@ -119,25 +118,25 @@ const BlogActionSection = ({ blogInfo }: { blogInfo: TBlog }) => {
             <div className="flex">
                 {blogInfo.published ? (
                     <FaRegEye
-                        className="text-[45px] px-3 rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
+                        className="text-[45px] px-2 rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
                         onClick={() =>
                             updateBlogPublishStatus(blogInfo.id, !blogInfo.published)
                         }
                     />
                 ) : (
                     <FaRegEyeSlash
-                        className="text-[45px] px-3 rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
+                        className="text-[45px] px-2 rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
                         onClick={() =>
                             updateBlogPublishStatus(blogInfo.id, !blogInfo.published)
                         }
                     />
                 )}
                 <FaEdit
-                    className="text-[45px] px-3 rounded-md font-medium cursor-pointer hover:text-blue-500 transition-all"
+                    className="text-[45px] px-2 rounded-md font-medium cursor-pointer hover:text-blue-500 transition-all"
                     onClick={() => setUpdateModal(true)}
                 />
                 <FaRegTrashAlt
-                    className="text-[40px] px-3 mt-[3px] rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
+                    className="text-[40px] px-2 mt-[3px] rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
                     onClick={() => setOpen(true)}
                 />
             </div>

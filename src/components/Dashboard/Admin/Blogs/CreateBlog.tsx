@@ -36,7 +36,7 @@ import { LoaderCircleIcon } from 'lucide-react';
 import Image from 'next/image';
 import { revalidateTag } from 'next/cache';
 import { useUserInfo } from '@/utils/getUserInfo';
-import { createNewBlog } from '@/actions/create';
+import { createNewBlog } from '@/actions/blogAction';
 
 const formSchema = z.object({
     title: z.string().min(3, { message: 'Title is required' }),
