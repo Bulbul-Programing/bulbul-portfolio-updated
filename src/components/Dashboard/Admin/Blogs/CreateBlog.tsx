@@ -1,31 +1,14 @@
 'use client'
 import { Button } from '@/components/ui/button';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import z from 'zod';
 import { toast } from 'sonner';
 import React, { ChangeEvent, useState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import Modal from '@/components/Modal';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
     AlertDialogHeader,
-    AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import ReactQuill from 'react-quill-new';
@@ -34,18 +17,9 @@ import { Label } from '@/components/ui/label';
 import { hostImages } from '@/utils/ImageUpload';
 import { LoaderCircleIcon } from 'lucide-react';
 import Image from 'next/image';
-import { revalidateTag } from 'next/cache';
 import { useUserInfo } from '@/utils/getUserInfo';
 import { createNewBlog } from '@/actions/blogAction';
 
-const formSchema = z.object({
-    title: z.string().min(3, { message: 'Title is required' }),
-    slug: z.string().min(3, { message: 'Slug is required' }),
-    excerpt: z.string().optional(),
-    content: z.string({ message: 'Content is required' }),
-    coverImage: z.instanceof(File),
-    published: z.boolean(),
-});
 
 interface CreateBlogProps {
     onBlogCreated?: () => void;
@@ -190,7 +164,6 @@ const CreateBlog: React.FC<CreateBlogProps> = () => {
                 </AlertDialog>
             </div>
         </div>
-
     );
 };
 

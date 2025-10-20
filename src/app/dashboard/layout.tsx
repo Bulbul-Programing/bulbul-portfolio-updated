@@ -2,19 +2,14 @@
 "use client";
 import React from 'react';
 import { IoMenu } from "react-icons/io5";
-import { ReactNode, useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import { TDecodedUser } from '@/types/TDecodedUser';
-import { adminDashboardNabItem, OwnerDashboardNabItem } from '@/components/NavItems/DashboardNavItem';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { OwnerDashboardNabItem } from '@/components/NavItems/DashboardNavItem';
 import { useUserInfo } from '@/utils/getUserInfo';
 
 
 const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
-    const router = useRouter();
     const { user, loading: userLoading, status } = useUserInfo()
 
     const [isExpanded, setIsExpanded] = useState(false);
@@ -80,36 +75,6 @@ const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) 
                 <div className='border-b mt-2'></div>
                 <div className="mt-4 space-y-2 transition-all duration-300 ease-in-out">
                     {
-                        user.role === 'ADMIN' &&
-                        <>
-                            {
-                                adminDashboardNabItem.map((item, index) => (
-                                    <Link
-                                        key={index}
-                                        className={` flex items-center gap-x-1.5 
-                                            ${(currentPage === item.path && isExpanded) ? "bg-destructive rounded-lg justify-start" : ""} 
-                                            ${isExpanded ? 'justify-start' : 'justify-center'} ${(isExpanded && currentPage !== item.path) && 'bg-destructive/20 rounded-lg text-secondary-foreground'}
-                                            items-center  hover:bg-destructive/70  text-primary-foreground p-2 m-2`}
-                                        href={item.path}
-                                        onClick={() => setIsDrawerOpen(false)}
-                                    >
-                                        <div
-                                            className={`text-lg md:text-2xl lg:text-xl 
-                                                ${currentPage !== item.path ? !isExpanded && " text-foreground" : ""} 
-                                                ${isExpanded && currentPage !== item.path ? "bg-transparent" : ""} 
-                                                ${currentPage === item.path ? !isExpanded && " bg-destructive p-3 rounded-full" : ""}`}
-                                        >
-                                            {item.icon}
-                                        </div>
-                                        <p className={` ${isExpanded ? "text-base" : "text-[0px] mt-0"} `}>
-                                            {item.element}
-                                        </p>
-                                    </Link>
-                                ))
-                            }
-                        </>
-                    }
-                    {
                         user.role === 'OWNER' &&
                         <>
                             {
@@ -124,7 +89,10 @@ const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) 
                                         onClick={() => setIsDrawerOpen(false)}
                                     >
                                         <div
-                                            className={`text-lg md:text-2xl bg-destructive ${isExpanded && currentPage !== item.path ? "bg-transparent" : ""} lg:text-xl ${currentPage === item.path ? !isExpanded && " text-primary-foreground  p-3 rounded-full" : ""}`}
+                                            className={`text-lg md:text-2xl lg:text-xl 
+                                                ${currentPage !== item.path ? !isExpanded && " text-foreground" : ""} 
+                                                ${isExpanded && currentPage !== item.path ? "bg-transparent" : ""} 
+                                                ${currentPage === item.path ? !isExpanded && " bg-destructive p-3 rounded-full" : ""}`}
                                         >
                                             {item.icon}
                                         </div>

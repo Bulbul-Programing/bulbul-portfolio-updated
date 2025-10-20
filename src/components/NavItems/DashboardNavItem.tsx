@@ -2,7 +2,7 @@ import { GoProjectTemplate } from "react-icons/go";
 import { MdOutlineDashboard } from "react-icons/md";
 import { RiBloggerLine } from "react-icons/ri";
 
-export const adminDashboardNabItem = [
+export const OwnerDashboardNabItem = [
     {
         path: "/dashboard",
         element: "Dashboard",
@@ -17,13 +17,5 @@ export const adminDashboardNabItem = [
         path: "/dashboard/blog",
         element: "Blog",
         icon: <RiBloggerLine />,
-    }
-]
-
-export const OwnerDashboardNabItem = [
-    {
-        path: "/owner/dashboard",
-        element: "Dashboard",
-        icon: <MdOutlineDashboard />,
     }
 ]

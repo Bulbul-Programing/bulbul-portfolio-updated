@@ -1,5 +1,4 @@
 import AllBlogs from '@/components/Dashboard/Admin/Blogs/AllBlogs';
-import CreateBlog from '@/components/Dashboard/Admin/Blogs/CreateBlog';
 import React from 'react';
 
 const Blog = () => {

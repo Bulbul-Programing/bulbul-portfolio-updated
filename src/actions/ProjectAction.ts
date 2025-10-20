@@ -3,6 +3,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { revalidateTag } from "next/cache";
 
+// Get all Project
+export const getAllProjects = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project`, {
+        method: "GET",
+        next: {
+            tags: ["PROJECTS"]
+        }
+    });
+    const data = await res.json();
+    return data.data;
+};
+
+
 // CREATE project
 export const createNewProject = async (data: any) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/create`, {

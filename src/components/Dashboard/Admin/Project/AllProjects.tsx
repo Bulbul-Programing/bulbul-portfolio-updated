@@ -1,17 +1,16 @@
-import { TBlog } from '@/types/TBlogs';
+import React from 'react';
+import CreateProject from './CreateProject';
+import { TProject } from '@/types/TProject';
 import Image from 'next/image';
-import React, { } from 'react';
-import BlogActionSection from './BlogActionSection';
-import CreateBlog from './CreateBlog';
-import { getBlogs } from '@/actions/blogAction';
+import ProjectAction from './ProjectAction';
+import { getAllProjects } from '@/actions/ProjectAction';
 
-const AllBlogs = async () => {
-    const blogs = await getBlogs();
-
+const AllProjects = async () => {
+    const projects = await getAllProjects();
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <CreateBlog /> {/* 👈 Pass callback */}
+                <CreateProject />
             </div>
             <table className="min-w-full table-auto border-collapse shadow-md rounded-lg overflow-hidden">
                 <thead className="bg-destructive text-secondary">
@@ -24,24 +23,24 @@ const AllBlogs = async () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {blogs?.map((blog: TBlog) => (
-                        <tr key={blog.id} className="border-b">
-                            <td className="p-2">
+                    {projects?.map((project: TProject) => (
+                        <tr key={project.id} className="border-b">
+                            <td className="p-2 w-[60px] border">
                                 <Image
-                                    alt={blog.title}
-                                    src={blog.coverImage}
+                                    alt={project.title}
+                                    src={project.thumbnail}
                                     width={50}
                                     height={50}
                                     className="rounded-md object-cover"
                                 />
                             </td>
-                            <td>{blog.title}</td>
-                            <td className={blog.published ? 'text-blue-500' : 'text-orange-500'}>
-                                {blog.published ? 'Published' : 'Blocked'}
+                            <td>{project.title}</td>
+                            <td className={project.isPublished ? 'text-blue-500' : 'text-orange-500'}>
+                                {project.isPublished ? 'Published' : 'Blocked'}
                             </td>
-                            <td>{new Date(blog.createdAt).toLocaleDateString()}</td>
+                            <td>{new Date(project.createdAt).toLocaleDateString()}</td>
                             <td className='max-w-[50px]'>
-                                <BlogActionSection blogInfo={blog} />
+                                <ProjectAction projectInfo={project} />
                             </td>
                         </tr>
                     ))}
@@ -51,4 +50,4 @@ const AllBlogs = async () => {
     );
 };
 
-export default AllBlogs;
+export default AllProjects;
