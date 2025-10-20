@@ -121,6 +121,7 @@ const CreateBlog: React.FC<CreateBlogProps> = () => {
                 setBlogBanner([]);
                 setBlogBannerPreview('');
                 setBlogTitle('')
+                setBlogContent('')
                 setOpen(false)
                 setLoading(false)
             }
