@@ -52,7 +52,7 @@ interface CreateBlogProps {
 }
 
 
-const CreateBlog: React.FC<CreateBlogProps> = ({ onBlogCreated }) => {
+const CreateBlog: React.FC<CreateBlogProps> = () => {
     const [open, setOpen] = useState(false);
     const [blogBannerPreview, setBlogBannerPreview] = useState('');
     const [blogBanner, setBlogBanner] = useState<File[] | []>([]);
@@ -114,10 +114,10 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onBlogCreated }) => {
 
         try {
             const result = await createNewBlog(payload)
-            console.log(result);
+            
             if (result.success) {
                 toast.success(result.massage || "Blog created successfully");
-                onBlogCreated?.();
+                // onBlogCreated?.();
                 setBlogBanner([]);
                 setBlogBannerPreview('');
                 setBlogTitle('')
@@ -173,7 +173,7 @@ const CreateBlog: React.FC<CreateBlogProps> = ({ onBlogCreated }) => {
                                 <AlertDialogCancel onClick={handleModalClose}>Cancel</AlertDialogCancel>
                                 {
                                     loading ?
-                                        <Button disabled={loading} onClick={handleSubmit} className='cursor-pointer'>
+                                        <Button disabled={loading} className='cursor-pointer'>
                                             <LoaderCircleIcon
                                                 className="-ms-1 animate-spin"
                                                 size={16}
