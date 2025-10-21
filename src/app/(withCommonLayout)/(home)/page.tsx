@@ -1,5 +1,6 @@
 import AboutSection from '@/components/Home/AboutSection';
 import ExperienceSection from '@/components/Home/ExperienceSection';
+import FeaturedProjects from '@/components/Home/FeaturedProjects';
 import HeroSection from '@/components/Home/HeroSection';
 
 const HomePage = () => {
@@ -8,6 +9,7 @@ const HomePage = () => {
             <HeroSection />
             <AboutSection />
             <ExperienceSection />
+            <FeaturedProjects />
         </div>
     );
 };
