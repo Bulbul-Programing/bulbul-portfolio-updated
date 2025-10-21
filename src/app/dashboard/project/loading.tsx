@@ -1,10 +1,9 @@
+import ProjectsTableSkeleton from '@/Skeleton/ProjectsTableSkeleton';
 import React from 'react';
 
 const loading = () => {
     return (
-        <div>
-            loading.... in project
-        </div>
+        <ProjectsTableSkeleton />
     );
 };
 

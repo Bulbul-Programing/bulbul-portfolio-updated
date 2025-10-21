@@ -118,25 +118,25 @@ const BlogActionSection = ({ blogInfo }: { blogInfo: TBlog }) => {
             <div className="flex">
                 {blogInfo.published ? (
                     <FaRegEye
-                        className="text-[45px] px-2 rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
+                        className="text-[32px] px-2 rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
                         onClick={() =>
                             updateBlogPublishStatus(blogInfo.id, !blogInfo.published)
                         }
                     />
                 ) : (
                     <FaRegEyeSlash
-                        className="text-[45px] px-2 rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
+                        className="text-[32px] px-2 rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
                         onClick={() =>
                             updateBlogPublishStatus(blogInfo.id, !blogInfo.published)
                         }
                     />
                 )}
                 <FaEdit
-                    className="text-[45px] px-2 rounded-md font-medium cursor-pointer hover:text-blue-500 transition-all"
+                    className="text-[32px] px-2 rounded-md font-medium cursor-pointer hover:text-blue-500 transition-all"
                     onClick={() => setUpdateModal(true)}
                 />
                 <FaRegTrashAlt
-                    className="text-[40px] px-2 mt-[3px] rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
+                    className="text-[31px] px-2 rounded-md font-medium cursor-pointer hover:text-red-500 transition-all"
                     onClick={() => setOpen(true)}
                 />
             </div>
@@ -228,8 +228,6 @@ const BlogActionSection = ({ blogInfo }: { blogInfo: TBlog }) => {
                 </DialogContent>
             </Dialog>
         </div>
-
-
     );
 };
 

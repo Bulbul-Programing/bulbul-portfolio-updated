@@ -28,7 +28,7 @@ export const createNewProject = async (data: any) => {
 
     const result = await res.json();
     if (result?.success) {
-        revalidateTag("BLOGS")
+        revalidateTag("PROJECTS")
     }
 
     return result;
@@ -36,7 +36,7 @@ export const createNewProject = async (data: any) => {
 
 // DELETE project
 export const deleteProject = async (id: number) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
     });
@@ -45,7 +45,7 @@ export const deleteProject = async (id: number) => {
 
 
     if (result?.success) {
-        revalidateTag("BLOGS")
+        revalidateTag("PROJECTS")
     }
 
     return result;
@@ -53,7 +53,7 @@ export const deleteProject = async (id: number) => {
 
 // UPDATE project
 export const updateProject = async (id: number, data: any) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -62,7 +62,7 @@ export const updateProject = async (id: number, data: any) => {
     const result = await res.json();
 
     if (result?.success) {
-        revalidateTag("BLOGS")
+        revalidateTag("PROJECTS")
     }
     console.log('Result in Update Blog', result);
     return result;
