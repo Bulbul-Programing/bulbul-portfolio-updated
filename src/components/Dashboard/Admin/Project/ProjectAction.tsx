@@ -111,7 +111,6 @@ const ProjectAction = ({ projectInfo }: { projectInfo: TProject }) => {
             thumbnail: thumbnail,
             ownerId: user?.id
         }
-        console.log(payload);
 
         try {
             const result = await updateProject(projectInfo.id, payload)

@@ -64,6 +64,6 @@ export const updateProject = async (id: number, data: any) => {
     if (result?.success) {
         revalidateTag("PROJECTS")
     }
-    console.log('Result in Update Blog', result);
+
     return result;
 };

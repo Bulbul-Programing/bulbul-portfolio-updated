@@ -63,6 +63,6 @@ export const updateBlog = async (id: number, data: any) => {
   if (result?.success) {
     revalidateTag("BLOGS")
   }
-  console.log('Result in Update Blog', result);
+
   return result;
 };

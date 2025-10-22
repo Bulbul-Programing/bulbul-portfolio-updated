@@ -4,7 +4,7 @@ import ProjectCart from "./ProjectCart";
 
 const FeaturedProjects = async () => {
     const blogs = await getAllProjects()
-    console.log(blogs);
+
     return (
         <div className="my-5">
             <div className="text-center ">

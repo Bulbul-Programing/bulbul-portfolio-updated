@@ -32,7 +32,7 @@ const Register = () => {
 
         try {
             const res = await register(data);
-            console.log(res);
+
             if (res?.success) {
                 toast.success(res.massage);
                 router.push("/login");

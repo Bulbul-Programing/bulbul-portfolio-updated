@@ -30,7 +30,6 @@ const Login = () => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
 
         try {
-            console.log(data);
             const res = await signIn("credentials", {
                 redirect: false,
                 ...data,
