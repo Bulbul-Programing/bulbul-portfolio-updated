@@ -1,6 +1,8 @@
 import { getAllProjects } from "@/actions/ProjectAction";
 import { TProject } from "@/types/TProject";
 import ProjectCart from "./ProjectCart";
+import Link from "next/link";
+import { GoProject } from "react-icons/go";
 
 const FeaturedProjects = async () => {
     const blogs = await getAllProjects()
@@ -18,7 +20,10 @@ const FeaturedProjects = async () => {
                     ))
                 }
             </div>
-        </div>
+            <div className="flex justify-center">
+                <Link href='/project' className="bg-primary opacity-85 px-3 py-2 rounded-md text-secondary hover:opacity-100 flex items-center gap-x-2 transition-all"><GoProject /> Get More Project</Link>
+            </div>
+        </div >
     );
 };
 
