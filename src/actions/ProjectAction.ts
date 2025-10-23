@@ -1,5 +1,7 @@
 "use server";
 
+// ADMIN ACTION
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { revalidateTag } from "next/cache";
 
@@ -15,6 +17,13 @@ export const getAllProjects = async () => {
     return data.data;
 };
 
+export const getSingleProject = async (slug: string) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/${slug}`, {
+        method: "GET"
+    });
+    const data = await res.json();
+    return data.data;
+};
 
 // CREATE project
 export const createNewProject = async (data: any) => {
@@ -66,4 +75,17 @@ export const updateProject = async (id: number, data: any) => {
     }
 
     return result;
+};
+
+
+// USER SECTION
+
+export const getAllProjectsUser = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project`, {
+        method: "GET",
+        next: { revalidate: 30 },
+        cache: "force-cache", 
+    });
+    const data = await res.json();
+    return data.data;
 };

@@ -17,31 +17,38 @@ interface Project {
 }
 const ProjectsSection = ({ projects }: { projects: Project[] }) => {
     return (
-        <section className="py-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-                My <span className="text-primary">Projects</span>
-            </h2>
+        <section className="py-10 md:py-16 ">
+            <div className="bg-muted py-8 md:py-14 text-center mb-5 md:mb-10">
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+                    Project
+                </h1>
+                <p className="text-sm text-muted-foreground mt-2">
+                    <Link href="/" className="hover:text-primary">Home</Link> /
+                    <span className="text-primary ml-1">Projects</span>
+                </p>
+            </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {projects.map((project) => (
-                    <motion.div
-                        key={project.id}
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        viewport={{ once: true }}
-                        className="
-                            bg-card 
-                            text-card-foreground 
-                            rounded-2xl 
-                            shadow-lg 
-                            overflow-hidden 
-                            border 
-                            border-border 
-                            hover:shadow-xl 
-                            transition
-                            "
-                    >
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8 px-5 md:px-10 lg:px-12">
+                {projects?.map((project) => (
+                    // <motion.div
+                    //     
+                    //     initial={{ opacity: 0, y: 50 }}
+                    //     whileInView={{ opacity: 1, y: 0 }}
+                    //     transition={{ duration: 0.5 }}
+                    //     viewport={{ once: true }}
+                    //     className="
+                    //         bg-card 
+                    //         text-card-foreground 
+                    //         rounded-2xl 
+                    //         shadow-lg 
+                    //         overflow-hidden 
+                    //         border 
+                    //         border-border 
+                    //         hover:shadow-xl 
+                    //         transition
+                    //         "
+                    // >
+                    <div className='border hover:border-primary bg-card text-card-foreground rounded-2xl shadow-lg overflow-hidden border-border hover:shadow-xl transition' key={project.id}>
                         <Image
                             src={project.thumbnail}
                             alt={project.title}
@@ -50,7 +57,7 @@ const ProjectsSection = ({ projects }: { projects: Project[] }) => {
                             className="w-full h-48 object-cover"
                         />
 
-                        <Link href={`/project/${project.slug}`} >
+                        <Link href={`/project/details/${project.slug}`} >
                             {/* Title */}
                             <div className="p-6 space-y-4">
                                 <h3 className="hidden lg:block text-xl font-bold tracking-tight">
@@ -126,7 +133,8 @@ const ProjectsSection = ({ projects }: { projects: Project[] }) => {
                                 </div>
                             </div>
                         </Link>
-                    </motion.div>
+                    </div>
+                    // </motion.div>
                 ))}
             </div>
         </section>

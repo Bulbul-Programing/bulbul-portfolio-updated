@@ -1,7 +1,8 @@
 "use server";
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { revalidatePath, revalidateTag } from "next/cache";
+
+// ADMIN Action
 
 // Get all Blogs
 export const getBlogs = async () => {
@@ -10,6 +11,15 @@ export const getBlogs = async () => {
     next: {
       tags: ["BLOGS"]
     }
+  });
+  const data = await res.json();
+  return data.data;
+};
+
+// Get all Blogs
+export const getSingleBlogs = async (slug: string) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${slug}`, {
+    method: "GET"
   });
   const data = await res.json();
   return data.data;
@@ -65,4 +75,16 @@ export const updateBlog = async (id: number, data: any) => {
   }
 
   return result;
+};
+
+// USER Action
+
+export const getAllBlogsUser = async () => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog`, {
+    method: "GET",
+    next: { revalidate: 30 },
+    cache: "force-cache",
+  });
+  const data = await res.json();
+  return data.data;
 };

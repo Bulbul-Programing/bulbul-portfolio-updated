@@ -1,8 +1,8 @@
-import { getAllProjects } from "@/actions/ProjectAction";
+import { getAllProjectsUser } from "@/actions/ProjectAction";
 import ProjectsSection from "@/components/Project/ProjectsSection";
 
 const Project = async () => {
-    const projects = await getAllProjects();
+    const projects = await getAllProjectsUser();
 
     return (
         <div>
