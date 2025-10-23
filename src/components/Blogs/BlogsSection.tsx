@@ -29,20 +29,20 @@ const BlogsSection = ({ blogs }: { blogs: Blog[] }) => {
             {/* Blog Cards */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8 px-5 md:px-10 lg:px-12">
                 {blogs.map((blog) => (
-                    <div
-                        key={blog.id}
-                        className="border hover:border-primary bg-card text-card-foreground rounded-2xl shadow-lg overflow-hidden border-border hover:shadow-xl transition"
-                    >
-                        {/* Cover Image */}
-                        <Image
-                            src={blog.coverImage}
-                            alt={blog.title}
-                            width={500}
-                            height={200}
-                            className="w-full h-48 object-cover"
-                        />
+                    <Link key={blog.id} href={`/blog/details/${blog.slug}`}>
+                        <div
+                            className="border hover:border-primary bg-card text-card-foreground rounded-2xl shadow-lg overflow-hidden border-border hover:shadow-xl transition"
+                        >
+                            {/* Cover Image */}
+                            <Image
+                                src={blog.coverImage}
+                                alt={blog.title}
+                                width={500}
+                                height={200}
+                                className="w-full h-48 object-cover"
+                            />
 
-                        <Link href={`/blog/details/${blog.slug}`}>
+
                             <div className="p-6 space-y-4">
                                 {/* Title */}
                                 {/* <h3 className="hidden lg:block text-xl font-bold tracking-tight">
@@ -83,11 +83,12 @@ const BlogsSection = ({ blogs }: { blogs: Blog[] }) => {
                                     Published: {new Date(blog.createdAt).toLocaleDateString()}
                                 </p>
                             </div>
-                        </Link>
-                    </div>
+
+                        </div>
+                    </Link>
                 ))}
             </div>
-        </section>
+        </section >
     );
 };
 

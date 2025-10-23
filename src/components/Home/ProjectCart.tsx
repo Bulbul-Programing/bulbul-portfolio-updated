@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { LuGithub } from "react-icons/lu";
 
 const ProjectCart = ({ project, index }: { project: TProject, index: number }) => {
+    console.log('project in home', project);
     return (
         // <Tilt
         //     glareEnable={true}
@@ -70,11 +71,11 @@ const ProjectCart = ({ project, index }: { project: TProject, index: number }) =
                         {/* Description */}
                         <p
                             className="text-muted-foreground text-sm mt-2 line-clamp-3 hidden lg:block"
-                            dangerouslySetInnerHTML={{ __html: project.description.length > 93 ? (project.description.length > 93 ? `${project.description.slice(0, 93)} ...` : '') : project.description }}
+                            dangerouslySetInnerHTML={{ __html: project.description?.length > 93 ? (project.description?.length > 93 ? `${project.description?.slice(0, 93)} ...` : '') : project.description }}
                         />
                         <p
                             className="text-muted-foreground text-sm mt-2 line-clamp-3 block lg:hidden"
-                            dangerouslySetInnerHTML={{ __html: project.description.length > 75 ? (project.description.length > 75 ? `${project.description.slice(0, 75)} ...` : '') : project.description }}
+                            dangerouslySetInnerHTML={{ __html: project.description?.length > 75 ? (project.description?.length > 75 ? `${project.description?.slice(0, 75)} ...` : '') : project.description }}
                         />
 
                         {/* Features */}

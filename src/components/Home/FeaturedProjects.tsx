@@ -1,11 +1,11 @@
-import { getAllProjects } from "@/actions/ProjectAction";
 import { TProject } from "@/types/TProject";
 import ProjectCart from "./ProjectCart";
 import Link from "next/link";
 import { GoProject } from "react-icons/go";
+import { getAllProjectsUser } from "@/actions/ProjectAction";
 
 const FeaturedProjects = async () => {
-    const blogs = await getAllProjects()
+    const project = await getAllProjectsUser()
 
     return (
         <div className="my-5">
@@ -15,7 +15,7 @@ const FeaturedProjects = async () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 m-5 lg:m-10">
                 {
-                    blogs.slice(0, 6).map((project: TProject, index: number) => (
+                    project.slice(0, 3).map((project: TProject, index: number) => (
                         <ProjectCart project={project} index={index} key={project.id} />
                     ))
                 }
