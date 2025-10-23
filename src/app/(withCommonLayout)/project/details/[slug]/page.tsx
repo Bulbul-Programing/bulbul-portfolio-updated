@@ -1,14 +1,35 @@
-import { getSingleProject } from '@/actions/ProjectAction';
+import { getAllProjects, getSingleProject } from '@/actions/ProjectAction';
 import ProjectDetailsCard from '@/components/Project/ProjectDetailsCard';
+import { TProject } from '@/types/TProject';
 import { ExternalLink } from 'lucide-react';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { FaGithub } from 'react-icons/fa';
 
-interface ProjectPageProps {
-    params: {
-        slug: string;
+export async function generateStaticParams() {
+    const projectData = await getAllProjects()
+
+    if (!Array.isArray(projectData.data)) {
+        return [];
+    }
+
+    return projectData.data
+        .map((project: TProject) => ({ projectId: project.id }))
+        .slice(0, 10);
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params
+    const projectData = await getSingleProject(slug)
+
+    return {
+        title: `${projectData.title}`,
+        description: `${projectData.description}.`,
+        openGraph: {
+            images: [{ url: projectData.thumbnail }],
+        },
     };
 }
 
