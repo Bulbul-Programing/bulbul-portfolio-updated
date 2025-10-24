@@ -6,7 +6,6 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TBlog } from "@/types/TBlogs";
-import { useUserInfo } from "@/utils/getUserInfo";
 import { hostImages } from "@/utils/ImageUpload";
 import { CircleAlertIcon, LoaderCircleIcon } from "lucide-react";
 import Image from "next/image";
@@ -25,7 +24,6 @@ const BlogActionSection = ({ blogInfo }: { blogInfo: TBlog }) => {
     const [blogContent, setBlogContent] = useState(blogInfo.content);
     const [blogTitle, setBlogTitle] = useState(blogInfo.title);
     const [loading, setLoading] = useState(false);
-    const { user } = useUserInfo()
 
 
     const handlePhoto = (e: ChangeEvent<HTMLInputElement>) => {

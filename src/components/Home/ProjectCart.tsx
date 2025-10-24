@@ -1,10 +1,9 @@
 'use client'
 import { TProject } from '@/types/TProject';
-import { Github, PlayCircle } from 'lucide-react';
+import { PlayCircle } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import { motion } from 'motion/react';
-import Tilt from "react-parallax-tilt";
 import Link from 'next/link';
 import { LuGithub } from "react-icons/lu";
 

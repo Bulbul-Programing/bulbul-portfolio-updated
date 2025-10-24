@@ -5,12 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { LoaderCircleIcon, Mail, MapPin, Send } from "lucide-react";
-import { FormEventHandler, useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
-import { FiGithub } from "react-icons/fi";
-import { CiLinkedin } from "react-icons/ci";
-import Link from "next/link";
-import emailjs from '@emailjs/browser';
 
 type TContact = {
     name: string;
@@ -23,8 +19,10 @@ export default function ContactSection() {
     const { register, handleSubmit, reset } = useForm<TContact>();
     const [loading, setLoading] = useState(false);
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = async () => {
+        setLoading(true)
         toast.success('Thanks for send Massage.')
+        setLoading(false)
         reset()
     };
 
@@ -85,7 +83,7 @@ export default function ContactSection() {
                             <MapPin size={18} /> Cumilla, Bangladesh.
                         </div>
                     </div>
-{/* 
+                    {/* 
                     <div className="mt-5">
                         <h3 className="text-lg font-semibold mb-3 tracking-wider">Socials</h3>
                         <div className="flex items-center gap-3">

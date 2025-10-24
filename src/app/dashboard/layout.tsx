@@ -1,20 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from 'react';
 import { IoMenu } from "react-icons/io5";
 import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { OwnerDashboardNabItem } from '@/components/NavItems/DashboardNavItem';
 import { useUserInfo } from '@/utils/getUserInfo';
 
 
 const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
-    const { user, loading: userLoading, status } = useUserInfo()
+    const { user, loading: userLoading } = useUserInfo()
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [loading, setLoading] = useState(false)
     const currentPage = usePathname();
 
 
@@ -37,7 +37,7 @@ const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) 
         }
     };
 
-    if (loading || userLoading) {
+    if (userLoading) {
         return <p>Loading</p>
     }
 

@@ -12,7 +12,6 @@ import React, { ChangeEvent, startTransition, useState } from "react";
 import { FaEdit, FaRegEye, FaRegEyeSlash, FaRegTrashAlt } from "react-icons/fa";
 import ReactQuill from "react-quill-new";
 import { toast } from "sonner";
-import { AlertDialogCancel } from '@/components/ui/alert-dialog';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
 import { deleteProject, updateProject } from '@/actions/ProjectAction';

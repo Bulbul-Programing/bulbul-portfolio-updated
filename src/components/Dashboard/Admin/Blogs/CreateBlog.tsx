@@ -1,7 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import z from 'zod';
 import { toast } from 'sonner';
 import React, { ChangeEvent, useState } from 'react';
 import {
@@ -33,7 +32,7 @@ const CreateBlog: React.FC<CreateBlogProps> = () => {
     const [blogContent, setBlogContent] = useState('');
     const [blogTitle, setBlogTitle] = useState('');
     const [loading, setLoading] = useState(false);
-    const { user, loading: userLoading, status } = useUserInfo()
+    const { user } = useUserInfo()
 
     const handleModalClose = () => {
         setBlogBanner([]);
@@ -88,7 +87,7 @@ const CreateBlog: React.FC<CreateBlogProps> = () => {
 
         try {
             const result = await createNewBlog(payload)
-            
+
             if (result.success) {
                 toast.success(result.massage || "Blog created successfully");
                 // onBlogCreated?.();

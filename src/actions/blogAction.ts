@@ -1,90 +1,118 @@
 "use server";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 // ADMIN Action
 
 // Get all Blogs
 export const getBlogs = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog`, {
-    method: "GET",
-    next: {
-      tags: ["BLOGS"]
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog`, {
+      method: "GET",
+      cache: "no-store",
+      next: { tags: ["BLOGS"] }
+    });
+
+    if (!res.ok) {
+      console.error("❌ Failed to fetch blogs:", res.status);
+      return [];
     }
-  });
-  const data = await res.json();
-  return data.data;
+
+    const text = await res.text();
+    try {
+      const data = JSON.parse(text);
+      return data?.data || [];
+    } catch {
+      console.error("❌ Invalid JSON from blog API:", text);
+      return [];
+    }
+  } catch (error) {
+    console.error("❌ Error in getBlogs():", error);
+    return [];
+  }
 };
 
-// Get all Blogs
+// Admin: Get single blog by slug
 export const getSingleBlogs = async (slug: string) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${slug}`, {
-    method: "GET"
-  });
-  const data = await res.json();
-  return data.data;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${slug}`, {
+      method: "GET",
+      cache: "no-store",
+    });
+
+    if (!res.ok) return null;
+
+    const text = await res.text();
+    return JSON.parse(text)?.data || null;
+  } catch {
+    return null;
+  }
 };
 
-// CREATE BLOG
+// Create Blog
 export const createNewBlog = async (data: any) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/create`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/create`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
 
-  const result = await res.json();
-  if (result?.success) {
-    revalidateTag("BLOGS")
+    const result = await res.json();
+    if (result?.success) revalidateTag("BLOGS");
+    return result;
+  } catch (error) {
+    console.log(error);
+    return { success: false, message: "Server error while creating blog" };
   }
-
-  return result;
 };
 
-// DELETE BLOG
+// Delete Blog
 export const deleteBlog = async (id: number) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${id}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-  });
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
 
-  const result = await res.json();
-
-
-  if (result?.success) {
-    revalidateTag("BLOGS")
+    const result = await res.json();
+    if (result?.success) revalidateTag("BLOGS");
+    return result;
+  } catch {
+    return { success: false, message: "Failed to delete blog" };
   }
-
-  return result;
 };
 
-// UPDATE BLOG
+// Update Blog
 export const updateBlog = async (id: number, data: any) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
 
-  const result = await res.json();
-
-  if (result?.success) {
-    revalidateTag("BLOGS")
+    const result = await res.json();
+    if (result?.success) revalidateTag("BLOGS");
+    return result;
+  } catch {
+    return { success: false, message: "Failed to update blog" };
   }
-
-  return result;
 };
 
-// USER Action
-
+// Public: Get Blogs (Static Cached)
 export const getAllBlogsUser = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog`, {
-    method: "GET",
-    next: { revalidate: 30 },
-    cache: "force-cache",
-  });
-  const data = await res.json();
-  return data.data;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog`, {
+      method: "GET",
+      next: { revalidate: 30 },
+      cache: "force-cache",
+    });
+
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data?.data || [];
+  } catch {
+    return [];
+  }
 };

@@ -1,12 +1,8 @@
 import { getAllProjects, getSingleProject } from '@/actions/ProjectAction';
 import ProjectDetailsCard from '@/components/Project/ProjectDetailsCard';
 import { TProject } from '@/types/TProject';
-import { ExternalLink } from 'lucide-react';
 import { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 import React from 'react';
-import { FaGithub } from 'react-icons/fa';
 
 export async function generateStaticParams() {
     const projectData = await getAllProjects()

@@ -7,85 +7,93 @@ import { revalidateTag } from "next/cache";
 
 // Get all Project
 export const getAllProjects = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project`, {
-        method: "GET",
-        next: {
-            tags: ["PROJECTS"]
-        }
-    });
-    const data = await res.json();
-    return data.data;
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project`, {
+            method: "GET",
+            cache: "no-store",
+            next: { tags: ["PROJECTS"] }
+        });
+
+        if (!res.ok) return [];
+        return (await res.json())?.data || [];
+    } catch {
+        return [];
+    }
 };
 
+// Admin: Get single project
 export const getSingleProject = async (slug: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/${slug}`, {
-        method: "GET"
-    });
-    const data = await res.json();
-    return data.data;
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/${slug}`);
+        if (!res.ok) return null;
+        return (await res.json())?.data || null;
+    } catch {
+        return null;
+    }
 };
 
-// CREATE project
+// Create Project
 export const createNewProject = async (data: any) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/create`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    });
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/create`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
 
-    const result = await res.json();
-    if (result?.success) {
-        revalidateTag("PROJECTS")
+        const result = await res.json();
+        if (result?.success) revalidateTag("PROJECTS");
+        return result;
+    } catch {
+        return { success: false, message: "Failed to create project" };
     }
-
-    return result;
 };
 
-// DELETE project
+// Delete Project
 export const deleteProject = async (id: number) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/${id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-    });
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/${id}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+        });
 
-    const result = await res.json();
-
-
-    if (result?.success) {
-        revalidateTag("PROJECTS")
+        const result = await res.json();
+        if (result?.success) revalidateTag("PROJECTS");
+        return result;
+    } catch {
+        return { success: false, message: "Failed to delete project" };
     }
-
-    return result;
 };
 
-// UPDATE project
+// Update Project
 export const updateProject = async (id: number, data: any) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-    });
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
 
-    const result = await res.json();
-
-    if (result?.success) {
-        revalidateTag("PROJECTS")
+        const result = await res.json();
+        if (result?.success) revalidateTag("PROJECTS");
+        return result;
+    } catch {
+        return { success: false, message: "Failed to update project" };
     }
-
-    return result;
 };
 
-
-// USER SECTION
-
+// Public: Get Projects
 export const getAllProjectsUser = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project`, {
-        method: "GET",
-        next: { revalidate: 30 },
-        cache: "force-cache", 
-    });
-    const data = await res.json();
-    return data.data;
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project`, {
+            method: "GET",
+            next: { revalidate: 30 },
+            cache: "force-cache",
+        });
+
+        if (!res.ok) return [];
+        return (await res.json())?.data || [];
+    } catch {
+        return [];
+    }
 };

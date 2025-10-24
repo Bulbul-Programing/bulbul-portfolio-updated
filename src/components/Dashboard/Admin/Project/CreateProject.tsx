@@ -21,7 +21,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { TProject } from '@/types/TProject';
 import { Textarea } from '@/components/ui/textarea';
 import { createNewProject } from '@/actions/ProjectAction';
-import { string } from 'zod';
 
 const CreateProject = () => {
     const [open, setOpen] = useState(false);
@@ -29,9 +28,9 @@ const CreateProject = () => {
     const [projectBanner, setProjectBanner] = useState<File[] | []>([]);
     const [projectContent, setProjectContent] = useState('');
     const [loading, setLoading] = useState(false);
-    const { user, loading: userLoading, status } = useUserInfo()
+    const { user } = useUserInfo()
 
-    const { register, handleSubmit, control, reset } = useForm<TProject>({
+    const { register, handleSubmit, reset } = useForm<TProject>({
         defaultValues: {
             title: "",
             description: "",
