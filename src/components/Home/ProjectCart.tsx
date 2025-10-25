@@ -8,7 +8,6 @@ import Link from 'next/link';
 import { LuGithub } from "react-icons/lu";
 
 const ProjectCart = ({ project, index }: { project: TProject, index: number }) => {
-    console.log('project in home', project);
     return (
         // <Tilt
         //     glareEnable={true}

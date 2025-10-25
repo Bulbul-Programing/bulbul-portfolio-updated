@@ -11,9 +11,7 @@ export async function generateStaticParams() {
         return [];
     }
 
-    return blogData.data
-        .map((blog: TBlog) => ({ blogId: blog.id }))
-        .slice(0, 10);
+    return blogData.blogs.map((blog: TBlog) => ({ slug: blog.slug })).slice(0, 10);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -29,9 +27,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
 }
 
+export const revalidate = 60;
+
 const BlogDetailsPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
     const { slug } = await params
     const blog = await getSingleBlogs(slug)
+
     if (!blog) {
         return <p>not found</p>
     }

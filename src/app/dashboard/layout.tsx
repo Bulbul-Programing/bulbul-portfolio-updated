@@ -17,7 +17,6 @@ const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) 
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const currentPage = usePathname();
 
-
     const handleMouseEnter = () => {
         setIsExpanded(true);
     };

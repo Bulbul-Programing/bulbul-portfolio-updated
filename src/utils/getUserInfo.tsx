@@ -1,5 +1,6 @@
 'use client'
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 export const useUserInfo = () => {
@@ -7,7 +8,8 @@ export const useUserInfo = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [user, setUser] = useState<any>(null)
     const [loading, setLoading] = useState(true)
-
+    const route = useRouter()
+    
     useEffect(() => {
         const fetchUser = async () => {
             if (!session?.user?.email) return
@@ -17,8 +19,12 @@ export const useUserInfo = () => {
                     { method: "GET" }
                 )
                 const data = await res.json()
+                
                 setUser(data.data)
             } catch (err) {
+                console.log('error');
+                route.push('/login')
+                setLoading(false)
                 console.error("Failed to fetch user info:", err)
             } finally {
                 setLoading(false)

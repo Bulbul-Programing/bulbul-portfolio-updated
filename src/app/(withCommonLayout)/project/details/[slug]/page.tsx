@@ -1,19 +1,20 @@
-import { getAllProjects, getSingleProject } from '@/actions/ProjectAction';
+import { getAllProjectsUser, getSingleProject } from '@/actions/ProjectAction';
 import ProjectDetailsCard from '@/components/Project/ProjectDetailsCard';
 import { TProject } from '@/types/TProject';
 import { Metadata } from 'next';
 import React from 'react';
 
+export const revalidate = 60
+
 export async function generateStaticParams() {
-    const projectData = await getAllProjects()
+    const projectData = await getAllProjectsUser()
 
     if (!Array.isArray(projectData.data)) {
         return [];
     }
 
     return projectData.data
-        .map((project: TProject) => ({ projectId: project.id }))
-        .slice(0, 10);
+        .map((project: TProject) => ({ slug: project.slug })).slice(0, 10);
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

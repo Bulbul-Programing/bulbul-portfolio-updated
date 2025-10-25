@@ -83,17 +83,14 @@ export const updateProject = async (id: number, data: any) => {
 };
 
 // Public: Get Projects
-export const getAllProjectsUser = async () => {
+export async function getAllProjectsUser() {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/project`, {
-            method: "GET",
-            next: { revalidate: 30 },
-            cache: "force-cache",
+            next: { revalidate: 60 }, // ISR enabled
         });
-
         if (!res.ok) return [];
-        return (await res.json())?.data || [];
+        return (await res.json()).data || [];
     } catch {
         return [];
     }
-};
+}

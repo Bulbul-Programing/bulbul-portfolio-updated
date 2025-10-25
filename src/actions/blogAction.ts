@@ -35,10 +35,7 @@ export const getBlogs = async () => {
 // Admin: Get single blog by slug
 export const getSingleBlogs = async (slug: string) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${slug}`, {
-      method: "GET",
-      cache: "no-store",
-    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/${slug}`);
 
     if (!res.ok) return null;
 
@@ -105,8 +102,7 @@ export const getAllBlogsUser = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog`, {
       method: "GET",
-      next: { revalidate: 30 },
-      cache: "force-cache",
+      next: { revalidate: 60 }
     });
 
     if (!res.ok) return [];

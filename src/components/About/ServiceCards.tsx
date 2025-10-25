@@ -11,33 +11,16 @@ const ServiceCards = () => {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8">
             {services.map((s, index) => (
-                <motion.div
-                    initial={{
-                        opacity: 0,
-                        y: 20 + (index * 15),
-                    }}
-                    viewport={{ once: true }}
-                    whileInView={{
-                        opacity: 1,
-                        y: 0,
-                        transition: {
-                            duration: 1 + (.5 + ((index * 3) / 10)),
-                        },
-                    }}
-                    key={s.title}
+                <div
+                    key={index}
+                    className="bg-card border border-border rounded-xl p-6 flex flex-col items-start gap-4 shadow-sm"
                 >
-                    <div
-
-                        className="bg-card border border-border rounded-xl p-6 flex flex-col items-start gap-4 shadow-sm"
-                    >
-                        <div className="text-2xl">{s.icon}</div>
-                        <div>
-                            <h3 className="text-lg font-semibold">{s.title}</h3>
-                            <p className="text-sm text-muted-foreground mt-1">{s.subtitle}</p>
-                        </div>
+                    <div className="text-2xl">{s.icon}</div>
+                    <div>
+                        <h3 className="text-lg font-semibold">{s.title}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">{s.subtitle}</p>
                     </div>
-                </motion.div>
-
+                </div>
             ))}
         </div>
     );
